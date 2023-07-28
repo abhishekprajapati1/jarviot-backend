@@ -11,11 +11,15 @@ const client = new OAuth2Client(
 )
 
 const redirectToAuth = async (rea, res) => {
-    const authUrl = client.generateAuthUrl({
-        access_type: 'offline', // 'offline' to request a refresh token
-        scope: ['https://www.googleapis.com/auth/drive.readonly', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'],
-    });
+    try {
+        const authUrl = client.generateAuthUrl({
+            access_type: 'offline', // 'offline' to request a refresh token
+            scope: ['https://www.googleapis.com/auth/drive.readonly', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'],
+        });
 
-    res.redirect(authUrl);
+        res.status(200).json({ success: true, authUrl });
+    } catch (error) {
+        res.status(500).json({ success: false, error, message: "Internal Server Error" })
+    }
 }
 module.exports = { client, redirectToAuth };
