@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const appRouter = require("./routes/index.js");
 const { prisma } = require('./middlewares/prisma.js');
@@ -15,6 +16,7 @@ app.use(cors({
     origin: ["http://localhost:3000"],
     credentials: true,
 }))
+app.use(cookieParser());
 app.use(prisma);
 app.use('', appRouter);
 

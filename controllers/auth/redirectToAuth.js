@@ -14,7 +14,7 @@ const redirectToAuth = async (rea, res) => {
     try {
         const authUrl = client.generateAuthUrl({
             access_type: 'offline', // 'offline' to request a refresh token
-            scope: ['https://www.googleapis.com/auth/drive.readonly', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'],
+            scope: ['https://www.googleapis.com/auth/drive.readonly', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/drive.metadata.readonly'],
         });
 
         res.status(200).json({ success: true, authUrl });
