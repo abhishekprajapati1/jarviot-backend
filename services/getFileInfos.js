@@ -18,10 +18,10 @@ const getFileInfos = async (token, query) => {
         nextPageToken = response.data.nextPageToken;
     } while (nextPageToken);
 
-
+    // console.log("see this", allFiles.filter(f => f.webViewLink))
     // shared with and created by information for each file...
     const filesWithInfo = await Promise.all(
-        allFiles.map(async file => {
+        allFiles.filter(f => f.webViewLink).map(async file => {
             try {
                 const p_response = await drive.permissions.list({
                     fileId: file.id,
@@ -48,16 +48,14 @@ const getFileInfos = async (token, query) => {
                 }
             } catch (error) {
                 return {
-                    id: file.id,
-                    name: file.name,
-                    mimeType: file.mimeType,
+                    ...file,
                     sharedWith: [],
                     createdBy: 'Unknown',
                 };
             }
         })
     )
-    
+
     return filesWithInfo;
 }
 
